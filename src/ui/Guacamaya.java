@@ -5,10 +5,12 @@ import java.util.Scanner;
 public class Guacamaya {
 
     // Scanner global para todo el programa
-    public static Scanner reader;
+    public static Scanner scanner;
     // Arreglos de precios y unidades para todo el programa
-    public static double[] precios;
+    public static double[] precios; // precios.length
     public static int[] unidades;
+    
+   
 
     public static void main(String[] args) {
 
@@ -23,7 +25,7 @@ public class Guacamaya {
     */
     public static void inicializarGlobales() {
 
-        reader = new Scanner(System.in);
+        scanner = new Scanner(System.in);
 
     }
 
@@ -50,30 +52,31 @@ public class Guacamaya {
             System.out.println("5. Consultar el numero de referencias de productos que en el dia han superado un limite minimo de ventas");
             System.out.println("6. Salir");
             System.out.println("\nDigite la opcion a ejecutar");
-            int opcion = reader.nextInt();
+            int opcion = scanner.nextInt();
 
             switch (opcion) {
                 case 1:
-                    solicitarDatos();
+                    Solicitardatos();
                     break;
                 case 2:
-                    System.out.println("\nLa cantidad total de unidades vendidas en el dia fue de: "+calcularTotalUnidadesVendidas());
+                    System.out.println("\nLa cantidad total de unidades vendidas en el dia fue de: "+calcularTotalUnidadesVendidas());                        
                     break;
                 case 3:
                     System.out.println("\nEl precio promedio de las referencias de producto vendidas en el dia fue de: "+calcularPrecioPromedio());
+
                     break;
                 case 4:
                     System.out.println("\nLas ventas totales (dinero recaudado) durante el dia fueron: "+calcularVentasTotales());
                     break;
                 case 5:
                     System.out.println("\nDigite el limite minimo de ventas a analizar");
-                    double limite = reader.nextDouble();
+                    double limite = scanner.nextDouble();
                     System.out.println("\nDe las "+precios.length+" referencias vendidas en el dia, "+consultarReferenciasSobreLimite(limite)+" superaron el limite minimo de ventas de "+limite);
                     break;
                 case 6:
                     System.out.println("\nGracias por usar nuestros servicios!");
                     salir = true;
-                    reader.close();
+                    scanner.close();
                     break;
 
                 default:
@@ -95,7 +98,7 @@ public class Guacamaya {
     public static void establecerCantidadVendida() {
 
         System.out.println("\nDigite el numero de referencias de producto diferentes vendidas en el dia ");
-        int referencias = reader.nextInt();
+        int referencias = scanner.nextInt();
 
         precios = new double[referencias];
         unidades = new int[referencias];
@@ -104,34 +107,51 @@ public class Guacamaya {
 
     public static void solicitarDatos(){
 
-        
-     
+    }
+
+    public static void Solicitardatos() {
+        for (int i = 0; i < precios.length; i++) {
+            System.out.println("\nProducto #" + (i + 1));
+            System.out.print("Ingrese el precio del producto: $");
+            precios[i] = scanner.nextDouble();
+            System.out.print("Ingrese la unidad vendida: ");
+            unidades[i] = scanner.nextInt();   
+    }
     }
 
     public static int calcularTotalUnidadesVendidas(){
-
-        return 0;
-
-
+        int total = 0;
+        for (int unidad : unidades){
+            total += unidad;
+        }
+        return total;
     }
 
     public static double calcularPrecioPromedio(){
-
-        return 0;
-
-
+        double suma = 0;
+        for (double precio : precios) {
+            suma += precio;
+        }
+        return suma / precios.length;
     }
 
     public static double calcularVentasTotales(){
-
-        return 0;
-
-
+        double total = 0;
+        for (int i = 0; i < precios.length; i++) {
+            total += precios[i] * unidades[i];
+        }
+        return total;
     }
 
     public static int consultarReferenciasSobreLimite(double limite){
-
-        return 0;
+        int count = 0;
+        for (int i = 0; i < precios.length; i++) {
+            double ventaProducto = precios[i] * unidades[i];
+            if (ventaProducto > limite) {
+                count++;
+            }
+        }
+        return count;
 
     }
 
